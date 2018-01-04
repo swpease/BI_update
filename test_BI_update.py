@@ -28,6 +28,25 @@ class TestGetData(unittest.TestCase):
         self.assertEqual(BI_update.get_data('itemsales.xls'), self.itemsales_test_data)
 
 
+class TestSave(unittest.TestCase):
+
+    @classmethod
+    def tearDownClass(cls):
+        os.remove('../TESTsave.xlsx')
+
+    def test_save(self):
+        BI_update.save([[1,2],[3,4]], 'TESTsave')
+        saved_data = openpyxl.load_workbook('../TESTsave.xlsx')
+        saved_sheet = saved_data.active
+
+        manual_save_comp = openpyxl.load_workbook('ExcelFiles/manual_save_FORTESTING.xlsx')
+        manual_sheet = manual_save_comp.active
+
+        for row in manual_sheet.rows:
+            for cell in row:
+                self.assertEqual(cell.value, saved_sheet[cell.coordinate].value)
+
+
 class TestProcessItemSales(unittest.TestCase):
 
     @classmethod
