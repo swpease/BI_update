@@ -96,5 +96,20 @@ class TestProcessInvoiceDetails(unittest.TestCase):
                           'pythonIDOutputTEST')
 
 
+class TestMain(unittest.TestCase):
+    
+    def test_main_cleanup(self):
+        sales_input_filename = 'BI_update/ExcelFiles/itemsales_FORTESTING.xls'
+        invoice_input_filename = 'BI_update/ExcelFiles/directmarketingreporttransactionitem_FORTESTING.xls'
+        item_sales_output_filename = 'ISOUT'
+        invoice_details_output_filename = 'IDOUT'
+        
+        self.assertRaises(FileNotFoundError, openpyxl.load_workbook,
+                          '../ISOUT')
+        self.assertRaises(FileNotFoundError, openpyxl.load_workbook,
+                          '../IDOUT')
+
+
+
 if __name__ == '__main__':
     unittest.main()
