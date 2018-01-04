@@ -1,4 +1,5 @@
 import unittest
+import os
 
 import openpyxl
 
@@ -29,12 +30,16 @@ class TestGetData(unittest.TestCase):
 
 class TestProcessItemSales(unittest.TestCase):
 
+    @classmethod
+    def tearDownClass(cls):
+        os.remove('../pythonISOutputTEST.xlsx')
+
     def test_processes_correctly(self):
         BI_update.process_item_sales('BI_update/ExcelFiles/itemsales_FORTESTING.xls', 'pythonISOutputTEST')
         auto_generated_wb = openpyxl.load_workbook('../pythonISOutputTEST.xlsx')
         auto_generated_sheet = auto_generated_wb.active
 
-        manually_made_wb = openpyxl.load_workbook(filename='ExcelFiles/DUMMYprocessed_itemsalesFORTEST.xlsx')
+        manually_made_wb = openpyxl.load_workbook(filename='ExcelFiles/manually_processed_itemsalesFORTESTING.xlsx')
         manually_made_sheet = manually_made_wb['Sheet1']
 
         for row in manually_made_sheet.rows:
