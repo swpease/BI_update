@@ -110,6 +110,5 @@ class TestMain(unittest.TestCase):
                           '../IDOUT')
 
 
-
 if __name__ == '__main__':
     unittest.main()
