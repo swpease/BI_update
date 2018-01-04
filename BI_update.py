@@ -43,6 +43,10 @@ SKUs = {
 
 
 def parse_arguments():
+    """
+    Sets up the terminal arguments.
+    :return: tuple – the input and output filenames
+    """
     parser = argparse.ArgumentParser(description='Process the Vintegrate data for Power BI.',
                                      epilog='NB: Place this file in a direct sub-folder of the one that '
                                      'contains the data.')
@@ -67,6 +71,11 @@ def parse_arguments():
 
 
 def get_data(filename):
+    """
+    Reads data in from .xls file using `xlrd`.
+    :param filename: The file to open. Format: `<filename>.xls`
+    :return: a list of lists `[[row]]`
+    """
     path = '../' + filename
     try:
         book = xlrd.open_workbook(path)
@@ -84,6 +93,12 @@ def get_data(filename):
 
 
 def save(data, filename):
+    """
+    Saves data to a .xlsx file via `openpyxl`.
+    :param data: A list of lists, [[row]], consisting of the processed data.
+    :param filename: The file to write to. Format as `<filename>` (no extension)
+    :return: None
+    """
     wb = Workbook()
     ws = wb.active
 
@@ -95,6 +110,12 @@ def save(data, filename):
 
 
 def process_item_sales(sales_input_filename, item_sales_output_filename):
+    """
+    Converts raw item sales data into usable format for BI.
+    :param sales_input_filename: The file to open. Format: `<filename>.xls`
+    :param item_sales_output_filename: The file to write to. Format as `<filename>` (no extension)
+    :return: None
+    """
     cells = get_data(sales_input_filename)
 
     # Reformat header to: ['Last Name', 'First Name', 'Order Number', 'Invoice Date', 'Quantity']
@@ -152,6 +173,12 @@ def process_item_sales(sales_input_filename, item_sales_output_filename):
 
 
 def process_invoice_details(invoice_input_filename, invoice_details_output_filename):
+    """
+    Converts raw invoice details data into usable format for BI.
+    :param invoice_input_filename: The file to open. Format: `<filename>.xls`
+    :param invoice_details_output_filename: The file to write to. Format as `<filename>` (no extension)
+    :return: None
+    """
     data = get_data(invoice_input_filename)
 
     # Removing 'Sales Rep' and 'Payment Type' fields
