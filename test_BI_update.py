@@ -52,5 +52,30 @@ class TestProcessItemSales(unittest.TestCase):
                           'pythonISOutputTEST')
 
 
+class TestProcessInvoiceDetails(unittest.TestCase):
+
+    @classmethod
+    def tearDownClass(cls):
+        os.remove('../pythonIDOutputTEST.xlsx')
+
+    def test_processes_correctly(self):
+        BI_update.process_invoice_details('BI_update/ExcelFiles/directmarketingreporttransactionitem_FORTESTING.xls',
+                                          'pythonIDOutputTEST')
+        auto_generated_wb = openpyxl.load_workbook('../pythonIDOutputTEST.xlsx')
+        auto_generated_sheet = auto_generated_wb.active
+
+        manually_made_wb = openpyxl.load_workbook(filename='ExcelFiles/manually_processed_directmarketingreporttransactionitem_FORTESTING.xlsx')
+        manually_made_sheet = manually_made_wb['Sheet1']
+
+        for row in manually_made_sheet.rows:
+            for cell in row:
+                self.assertEqual(cell.value, auto_generated_sheet[cell.coordinate].value)
+
+    def test_bad_sku(self):
+        self.assertRaises(KeyError, BI_update.process_invoice_details,
+                          'BI_update/ExcelFiles/directmarketingreporttransactionitem_badsku_FORTESTING.xls',
+                          'pythonIDOutputTEST')
+
+
 if __name__ == '__main__':
     unittest.main()
