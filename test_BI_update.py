@@ -30,7 +30,21 @@ class TestGetData(unittest.TestCase):
 class TestProcessItemSales(unittest.TestCase):
 
     def test_processes_correctly(self):
-        manually_made_wb = openpyxl.load_workbook('ExcelFiles/DUMMYprocessed_itemsalesFORTEST.xlsx')
+        BI_update.process_item_sales('BI_update/ExcelFiles/itemsales_FORTESTING.xls', 'pythonISOutputTEST')
+        auto_generated_wb = openpyxl.load_workbook('../pythonISOutputTEST.xlsx')
+        auto_generated_sheet = auto_generated_wb.active
+
+        manually_made_wb = openpyxl.load_workbook(filename='ExcelFiles/DUMMYprocessed_itemsalesFORTEST.xlsx')
+        manually_made_sheet = manually_made_wb['Sheet1']
+
+        for row in manually_made_sheet.rows:
+            for cell in row:
+                self.assertEqual(cell.value, auto_generated_sheet[cell.coordinate].value)
+
+    def test_bad_sku(self):
+        self.assertRaises(KeyError, BI_update.process_item_sales,
+                          'BI_update/ExcelFiles/itemsales_badsku_FORTESTING.xls',
+                          'pythonISOutputTEST')
 
 
 if __name__ == '__main__':
