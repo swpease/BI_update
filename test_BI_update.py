@@ -30,7 +30,7 @@ class TestGetData(unittest.TestCase):
 class TestProcessItemSales(unittest.TestCase):
 
     def test_processes_correctly(self):
-        manually_made_wb = openpyxl.load_workbook('')
+        manually_made_wb = openpyxl.load_workbook('ExcelFiles/DUMMYprocessed_itemsalesFORTEST.xlsx')
 
 
 if __name__ == '__main__':
