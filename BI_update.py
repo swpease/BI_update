@@ -82,12 +82,13 @@ def get_data(filename):
     except FileNotFoundError as e:
         print("Your input file `{}` is either missing or not in the right location.".format(e.filename))
         raise
-    sheet = book.sheets()[0]
+    sheets = book.sheets()
 
     # Convert all values into native Python types as a list of lists [[rows]]
     data = []
-    for i in range(sheet.nrows):
-        data.append(sheet.row_values(rowx=i))
+    for sheet in sheets:
+        for i in range(sheet.nrows):
+            data.append(sheet.row_values(rowx=i))
 
     return data
 
